@@ -1,0 +1,73 @@
+FROM xe1gyq/openvino
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ENV TIMEZONE America/Mexico_City
+ENV USER root
+
+RUN sudo apt-get update && \
+    sudo apt-get install -y --no-install-recommends \
+    libgstreamer1.0-0 \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-libav \
+    gstreamer1.0-doc \
+    gstreamer1.0-tools \
+    libgstreamer-plugins-base1.0-dev && \
+    sudo rm -rf /var/lib/apt/lists/*
+
+RUN sudo apt-get update && \
+    sudo apt-get install -y --no-install-recommends \
+    python-setuptools \
+    python-dev \
+    build-essential && \
+    sudo rm -rf /var/lib/apt/lists/*
+
+RUN sudo -H pip3 install --upgrade \
+    paho-mqtt
+
+WORKDIR /opt/intel/openvino/deployment_tools/tools/model_downloader
+
+RUN sudo ./downloader.py --name face-detection-adas-0001 && \
+    sudo ./downloader.py --name head-pose-estimation-adas-0001 && \
+    sudo ./downloader.py --name face-detection-adas-0001-fp16 && \
+    sudo ./downloader.py --name head-pose-estimation-adas-0001-fp16
+
+WORKDIR /
+
+ADD --chown=1000:1000 inference.py /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/inference.py'
+ADD --chown=1000:1000 main.py /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.py'
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
+
+WORKDIR /home/user
+RUN chown user /home/user
+USER user
+
+ARG CAMERA_IDENTIFICATION
+ENV CAMERA_IDENTIFICATION="${CAMERA_IDENTIFICATION}"
+
+ARG VIDEO_CAPTURE
+ENV VIDEO_CAPTURE="${VIDEO_CAPTURE}"
+
+ARG SINK_HOST_IP
+ENV SINK_HOST_IP="${SINK_HOST_IP}"
+
+ARG SINK_HOST_PORT
+ENV SINK_HOST_PORT="${SINK_HOST_PORT}"
+
+ARG CONFIDENCE
+ENV CONFIDECE="${CONFIDENCE}"
+
+ARG DEVICE
+ENV DEVICE="${DEVICE}"
+
+ARG REPORTING_INTERVAL
+ENV REPORTING_INTERVAL="${REPORTING_INTERVAL}"
+
+ENTRYPOINT ["/home/user/main.sh"]
+CMD [${CAMERA_IDENTIFICATION}, ${VIDEO_CAPTURE}, ${SINK_HOST_IP}, ${SINK_HOST_PORT}, ${CONFIDENCE}, ${DEVICE}, ${REPORTING_INTERVAL}]
