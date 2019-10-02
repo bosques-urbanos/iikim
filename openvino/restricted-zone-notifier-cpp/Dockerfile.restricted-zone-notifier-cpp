@@ -44,5 +44,8 @@ RUN echo "source $OPENVINO_INSTALL/bin/setupvars.sh" >> /home/user/.bashrc
 ARG DEVICE
 ENV DEVICE="${DEVICE}"
 
+ARG TARGET
+ENV TARGET="${TARGET}"
+
 ENTRYPOINT ["/home/user/main.sh"]
-CMD ["/home/user/main.sh", "${DEVICE}"]
+CMD ["/home/user/main.sh", "${DEVICE}", "${TARGET}"]
