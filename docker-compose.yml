@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+
+  gstreamer:
+    build:
+      context: ./gstreamer/
+      dockerfile: Dockerfile.gstreamer
+      args:
+        - CAMERA_IDENTIFICATION=${CAMERA_IDENTIFICATION:-camera-01}
+        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+        - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
+        - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
+    image: xe1gyq/gstreamer
+    container_name: acueducto-gstreamer
+    privileged: true
+    restart: on-failure
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - CAMERA_IDENTIFICATION=${CAMERA_IDENTIFICATION:-camera-01}
+      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+      - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
+      - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+  haarcascades:
+    build:
+      context: ./haarcascades/
+      dockerfile: Dockerfile.haarcascades
+      args:
+        - SERVICE_NAME=${SERVICE_NAME:-HaarCascades}
+        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+        - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
+        - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
+    image: xe1gyq/haarcascades
+    container_name: acueducto-haarcascades
+    privileged: true
+    restart: on-failure
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - SERVICE_NAME=${SERVICE_NAME:-HaarCascades}
+      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+      - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
+      - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
