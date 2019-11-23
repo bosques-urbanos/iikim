@@ -10,8 +10,8 @@ services:
         - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
-    image: xe1gyq/gstreamer
-    container_name: acueducto-gstreamer
+    image: application/gstreamer
+    container_name: application-gstreamer
     privileged: true
     restart: on-failure
     environment:
@@ -38,8 +38,8 @@ services:
         - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
-    image: xe1gyq/haarcascades
-    container_name: acueducto-haarcascades
+    image: application/haarcascades
+    container_name: application-haarcascades
     privileged: true
     restart: on-failure
     environment:
@@ -49,54 +49,6 @@ services:
       - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
       - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
       - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
-    network_mode: host
-    ports:
-      - 5001:5001
-    devices:
-      - /dev
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-
-  restricted-zone-notifier-cpp:
-    build:
-      context: ./openvino/restricted-zone-notifier-cpp/
-      dockerfile: Dockerfile.restricted-zone-notifier-cpp
-      args:
-        - DEVICE=${DEVICE:-0}
-        - TARGET=${TARGET:-cpu}
-    image: xe1gyq/restricted-zone-notifier-cpp
-    container_name: iikim-restricted-zone-notifier-cpp
-    privileged: true
-    restart: on-failure
-    environment:
-      - TZ=America/Mexico_City
-      - DISPLAY=:0
-      - DEVICE=${DEVICE:-0}
-      - TARGET=${TARGET:-cpu}
-    network_mode: host
-    ports:
-      - 5001:5001
-    devices:
-      - /dev
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-
-  shopper-gaze-monitor-cpp:
-    build:
-      context: ./openvino/shopper-gaze-monitor-cpp/
-      dockerfile: Dockerfile.shopper-gaze-monitor-cpp
-      args:
-        - DEVICE=${DEVICE:-0}
-        - TARGET=${TARGET:-cpu}
-    image: xe1gyq/shopper-gaze-monitor-cpp
-    container_name: iikim-shopper-gaze-monitor-cpp
-    privileged: true
-    restart: on-failure
-    environment:
-      - TZ=America/Mexico_City
-      - DISPLAY=:0
-      - DEVICE=${DEVICE:-0}
-      - TARGET=${TARGET:-cpu}
     network_mode: host
     ports:
       - 5001:5001
