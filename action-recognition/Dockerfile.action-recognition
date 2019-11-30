@@ -1,0 +1,58 @@
+FROM xe1gyq/openvino
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ENV TIMEZONE America/Mexico_City
+ENV USER root
+ENV HOME_USER /home/user
+
+RUN sudo apt-get update && \
+    sudo apt-get install -y --no-install-recommends \
+    libgstreamer1.0-0 \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-libav \
+    gstreamer1.0-doc \
+    gstreamer1.0-tools \
+    libgstreamer-plugins-base1.0-dev && \
+    sudo rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/intel/openvino/deployment_tools/tools/model_downloader
+
+RUN sudo ./downloader.py --name driver-action-recognition-adas-0002-encoder --output_dir $HOME_USER && \
+    sudo ./downloader.py --name driver-action-recognition-adas-0002-decoder --output_dir $HOME_USER && \
+    sudo ./downloader.py --name action-recognition-0001-encoder --output_dir $HOME_USER && \
+    sudo ./downloader.py --name action-recognition-0001-decoder --output_dir $HOME_USER
+
+WORKDIR /
+
+COPY action_recognition/* /home/user/action_recognition/
+ADD --chown=1000:1000 driver_actions.txt /home/user/
+ADD --chown=1000:1000 main.py /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.py'
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
+
+WORKDIR /home/user
+RUN chown user /home/user
+USER user
+
+ARG DEVICE
+ENV DEVICE="${DEVICE}"
+
+ARG ID
+ENV ID="${ID}"
+
+ARG VIDEO
+ENV VIDEO="${VIDEO}"
+
+ARG SINK_IP
+ENV SINK_IP="${SINK_IP}"
+
+ARG SINK_PORT
+ENV SINK_PORT="${SINK_PORT}"
+
+ENTRYPOINT ["/home/user/main.sh"]
+CMD [${DEVICE}, ${ID}, ${VIDEO}, ${SINK_IP}, ${SINK_PORT}]

@@ -1,0 +1,41 @@
+FROM xe1gyq/openvino-2018r5
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    gcc \
+    python-dev \
+    default-jre \
+    python-pip \
+    pssh \
+    python-psutil \
+    python-setuptools \
+    python-opencv \
+    libopencv-dev \
+    python-opencv \
+    python-qt4 \
+    software-properties-common && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN add-apt-repository ppa:intel-opencl/intel-opencl && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends intel-opencl-icd
+
+WORKDIR /home/user
+
+RUN git clone https://github.com/cmusatyalab/openrtist.git && \
+    cd openrtist/server/ && \
+    pip install -r requirements.txt && \
+    python main.py
+
+EXPOSE 7070 8021 9098 9111 22222
+
+CMD ["bash", "-c", "cd $HOME/gabriel/server/bin/; \
+                    ./gabriel-control -n eth0 & sleep 5; \
+                    ./gabriel-ucomm -s 127.0.0.1:8021 & sleep 5; \
+                    export PYTHONPATH=$HOME/gabriel/server/:$PYTHONPATH; \
+                    cd /home/user/openrtist/server/; \
+                    source /opt/intel/openvino/bin/setupvars.sh -pyver 2.7 && python proxy.py -s 0.0.0.0:8021"]
