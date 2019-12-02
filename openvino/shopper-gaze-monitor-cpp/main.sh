@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # =============================================================================
 # Variables
 # =============================================================================
@@ -25,23 +27,28 @@ export MQTT_CLIENT_ID=shopper-gaze-monitor-cpp
 
 case $TARGET in
 
-     cpu)
-         TARGET='-b=2 -t=0'
+     CPU)
+         TARGET='-d=CPU'
+         FP='FP32'
          ;;
 
-     gpu)
-         TARGET='-b=2 -t=1'
+     GPU)
+         TARGET='-d=GPU'
+         FP='FP16'
          ;;
 
-     vpu)
-         TARGET='-b=2 -t=3'
+     MYRIAD)
+         TARGET='-d=MYRIAD'
+         FP='FP16'
          ;;
 esac
 
-/home/user/shopper-gaze-monitor-cpp/build/monitor \
-  -m=/home/user/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.bin \
-  -c=/home/user/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.xml \
-  -pc=/home/user/Transportation/object_attributes/headpose/vanilla_cnn/dldt/head-pose-estimation-adas-0001.bin \
-  -pm=/home/user/Transportation/object_attributes/headpose/vanilla_cnn/dldt/head-pose-estimation-adas-0001.xml \
-  -d=$DEVICE \
+if [[ $INPUT ]]; then
+   sed -i "4s|.*|\"video\":\"${INPUT}\"|" /home/user/shopper-gaze-monitor-cpp/resources/config.json
+fi
+
+cd /home/user/shopper-gaze-monitor-cpp/build/
+./monitor \
+  -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/face-detection-adas-0001/${FP}/face-detection-adas-0001.xml \
+  -pm=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/head-pose-estimation-adas-0001/${FP}/head-pose-estimation-adas-0001.xml \
   $TARGET

@@ -11,7 +11,7 @@ services:
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     image: xe1gyq/gstreamer
-    container_name: acueducto-gstreamer
+    container_name: application-gstreamer
     privileged: true
     restart: on-failure
     environment:
@@ -39,7 +39,7 @@ services:
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     image: xe1gyq/haarcascades
-    container_name: acueducto-haarcascades
+    container_name: application-haarcascades
     privileged: true
     restart: on-failure
     environment:

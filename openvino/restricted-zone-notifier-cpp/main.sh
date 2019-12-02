@@ -25,21 +25,28 @@ export MQTT_CLIENT_ID=restricted-zone-notifier-cpp
 
 case $TARGET in
 
-     cpu)
+     CPU)
          TARGET='-b=2 -t=0'
+         FP='FP32'
          ;;
 
-     gpu)
+     GPU)
          TARGET='-b=2 -t=1'
+         FP='FP16'
          ;;
 
-     vpu)
+     MYRIAD)
          TARGET='-b=2 -t=3'
+         FP='FP16'
          ;;
 esac
 
-/home/user/restricted-zone-notifier-cpp/build/monitor \
-  -m=/home/user/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd/dldt/pedestrian-detection-adas-0002.bin \
-  -c=/home/user/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd/dldt/pedestrian-detection-adas-0002.xml \
-  -d=$DEVICE \
+if [[ $INPUT ]]; then
+   sed -i "4s|.*|\"video\":\"${INPUT}\"|" /home/user/restricted-zone-notifier-cpp/resources/config.json
+fi
+
+cd /home/user/restricted-zone-notifier-cpp/build/
+./monitor \
+  -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.bin \
+  -c=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.xml \
   $TARGET
