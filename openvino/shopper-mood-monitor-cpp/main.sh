@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # =============================================================================
 # Variables
 # =============================================================================
@@ -25,24 +27,32 @@ export MQTT_CLIENT_ID=shopper-mood-monitor-cpp
 
 case $TARGET in
 
-     cpu)
-         TARGET='-b=2 -t=0'
-         ;;
-
-     gpu)
+     CPU)
          TARGET='-b=2 -t=1'
+         FP='FP32'
          ;;
 
-     vpu)
+     GPU)
+         TARGET='-b=2 -t=2'
+         FP='FP16'
+         ;;
+
+     VPU)
          TARGET='-b=2 -t=3'
+         FP='FP16'
          ;;
 
 esac
 
-/home/user/shopper-mood-monitor-cpp/build/monitor \
-  -m=/home/user/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.bin \
-  -c=/home/user/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.xml \
-  -sm=/home/user/Retail/object_attributes/emotions_recognition/0003/dldt/emotions-recognition-retail-0003.bin \
-  -sc=/home/user/Retail/object_attributes/emotions_recognition/0003/dldt/emotions-recognition-retail-0003.xml \
-  -d=$DEVICE \
-  $TARGET
+INPUT="-i=./face-demographics-walking-and-pause.mp4"
+
+echo $TARGET $INPUT
+
+cd /home/user/shopper-mood-monitor-cpp/build/
+./monitor \
+  -m=/home/user/intel/face-detection-adas-0001/${FP}/face-detection-adas-0001.bin \
+  -c=/home/user/intel/face-detection-adas-0001/${FP}/face-detection-adas-0001.xml \
+  -sm=/home/user/intel/emotions-recognition-retail-0003/${FP}/emotions-recognition-retail-0003.bin \
+  -sc=/home/user/intel/emotions-recognition-retail-0003/${FP}/emotions-recognition-retail-0003.xml \
+  $TARGET \
+  $INPUT

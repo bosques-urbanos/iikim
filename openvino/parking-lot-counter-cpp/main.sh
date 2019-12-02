@@ -21,26 +21,35 @@ cd $HOME
 source $OPENVINO_INSTALLATION/bin/setupvars.sh
 
 export MQTT_SERVER=172.17.0.1:1883
-export MQTT_CLIENT_ID=hochob-parking-lot-counter-cpp
+export MQTT_CLIENT_ID=parking-lot-counter-cpp
 
 case $TARGET in
 
-     cpu)
+     CPU)
          TARGET='-b=2 -t=0'
+         FP='FP32'
          ;;
 
-     gpu)
+     GPU)
          TARGET='-b=2 -t=1'
+         FP='FP16'
          ;;
 
-     vpu)
+     MYRIAD)
          TARGET='-b=2 -t=3'
+         FP='FP16'
          ;;
 
 esac
 
-/home/user/parking-lot-counter-cpp/build/monitor \
-  -m=/home/user/Transportatio/object_detection/pedestrian-and-vehicle/mobilenet-reduced-ssd/dldt/pedestrian-and-vehicle-detector-adas-0001.bin \
-  -c=/home/user/Transportation/object_detection/pedestrian-and-vehicle/mobilenet-reduced-ssd/dldt/pedestrian-and-vehicle-detector-adas-0001.xml \
+if [[ $INPUT ]]; then
+   sed -i "4s|.*|\"video\":\"${INPUT}\"|" /home/user/parking-lot-counter-cpp/resources/config.json
+fi
+
+cd /home/user/parking-lot-counter-cpp/build/
+
+./monitor \
+  -m=/home/user/intel/pedestrian-and-vehicle-detector-adas-0001/${FP}/pedestrian-and-vehicle-detector-adas-0001.bin \
+  -c=/home/user/intel/pedestrian-and-vehicle-detector-adas-0001/${FP}/pedestrian-and-vehicle-detector-adas-0001.xml \
   $TARGET \
   -i=$VIDEO
