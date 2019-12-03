@@ -56,3 +56,25 @@ services:
       - /dev
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
+
+  openrtist:
+    build:
+      context: ./openrtist/
+      dockerfile: Dockerfile.openrtist
+    image: xe1gyq/openrtist
+    container_name: application-openrtist
+    privileged: true
+    restart: on-failure
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+    network_mode: host
+    ports:
+      - 9098:9098
+      - 9111:9111
+      - 22222:22222
+      - 8021:8021
+    devices:
+      - /dev
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
