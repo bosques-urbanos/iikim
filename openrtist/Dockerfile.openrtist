@@ -1,4 +1,4 @@
-FROM xe1gyq/openvino-2018r5
+FROM xe1gyq/openvino
 
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
@@ -28,14 +28,10 @@ WORKDIR /home/user
 
 RUN git clone https://github.com/cmusatyalab/openrtist.git && \
     cd openrtist/server/ && \
-    pip install -r requirements.txt && \
-    python main.py
+    pip install -r requirements.txt
 
 EXPOSE 7070 8021 9098 9111 22222
 
-CMD ["bash", "-c", "cd $HOME/gabriel/server/bin/; \
-                    ./gabriel-control -n eth0 & sleep 5; \
-                    ./gabriel-ucomm -s 127.0.0.1:8021 & sleep 5; \
-                    export PYTHONPATH=$HOME/gabriel/server/:$PYTHONPATH; \
-                    cd /home/user/openrtist/server/; \
-                    source /opt/intel/openvino/bin/setupvars.sh -pyver 2.7 && python proxy.py -s 0.0.0.0:8021"]
+CMD ["bash", "-c", "cd /home/user/openrtist/server/ && \
+                    source /opt/intel/openvino/bin/setupvars.sh && \
+                    python3 main.py"]
