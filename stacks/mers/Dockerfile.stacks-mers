@@ -1,0 +1,24 @@
+ARG DERIVED_IMAGE=clearlinux/stacks-mers
+FROM clearlinux:latest AS bundles
+
+# Grab os-release info from the minimal base image so
+# that the new content matches the exact OS version
+COPY --from=clearlinux/os-core:latest /usr/lib/os-release /
+
+# Install additional content in a target directory
+# using the os version from the minimal base
+RUN source /os-release && \
+    mkdir /install_root \
+    && swupd os-install -V ${VERSION_ID} \
+    --path /install_root --statedir /swupd-state \
+    --bundles=make,wget,python3-basic --no-boot-update \
+    && rm -rf /install_root/var/lib/swupd/*
+
+# From image set with non-root user allow installation of testing components
+FROM $DERIVED_IMAGE
+
+USER 0
+COPY --from=bundles /install_root /
+RUN pip3 install pyyaml requests
+WORKDIR /home/mers-user
+USER mers-user
