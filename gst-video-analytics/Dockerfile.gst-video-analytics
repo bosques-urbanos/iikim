@@ -1,0 +1,26 @@
+FROM gst-video-analytics:latest
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ENV TIMEZONE America/Mexico_City
+ENV USER root
+
+ADD --chown=1000:1000 main.sh /root/
+RUN /bin/bash -c 'chmod +x /root/main.sh'
+
+WORKDIR /root
+
+ARG CAMERA_IDENTIFICATION
+ENV CAMERA_IDENTIFICATION="${CAMERA_IDENTIFICATION}"
+
+ARG VIDEO_CAPTURE
+ENV VIDEO_CAPTURE="${VIDEO_CAPTURE}"
+
+ARG SINK_HOST_IP
+ENV SINK_HOST_IP="${SINK_HOST_IP}"
+
+ARG SINK_HOST_PORT
+ENV SINK_HOST_PORT="${SINK_HOST_PORT}"
+
+ENTRYPOINT ["/root/main.sh"]
+CMD ["/root/main.sh", ${CAMERA_IDENTIFICATION}, ${VIDEO_CAPTURE}, ${SINK_HOST_IP}, ${SINK_HOST_PORT}]
