@@ -11,7 +11,7 @@ RUN source /os-release && \
     mkdir /install_root \
     && swupd os-install -V ${VERSION_ID} \
     --path /install_root --statedir /swupd-state \
-    --bundles=make,wget,python3-basic --no-boot-update \
+    --bundles=make,wget,python3-basic,mosquitto --no-boot-update \
     && rm -rf /install_root/var/lib/swupd/*
 
 # From image set with non-root user allow installation of testing components
@@ -20,5 +20,17 @@ FROM $DERIVED_IMAGE
 USER 0
 COPY --from=bundles /install_root /
 RUN pip3 install pyyaml requests
+
+ARG PAHO_MQTT_C_VERSION=1.3.1
+ARG PAHO_MQTT_C=https://github.com/eclipse/paho.mqtt.c/archive/v${PAHO_MQTT_C_VERSION}.tar.gz
+
+RUN wget -O - ${PAHO_MQTT_C} | tar xz && \
+    cd paho.mqtt.c-${PAHO_MQTT_C_VERSION} && \
+    make && \
+    make install && \
+    ldconfig
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
 WORKDIR /home/mers-user
 USER mers-user

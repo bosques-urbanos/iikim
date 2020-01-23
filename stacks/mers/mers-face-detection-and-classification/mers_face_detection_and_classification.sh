@@ -7,12 +7,12 @@
 
 set -e
 
-BASEDIR=$(dirname "$0")/gst-video-analytics
+BASEDIR=$(dirname "$0")
 if [ -n ${GST_SAMPLES_DIR} ]; then
-  source $BASEDIR/scripts/setup_env.sh
+  source $BASEDIR/common/setup_env.sh
 fi
-source $BASEDIR/scripts/setlocale.sh
-source $BASEDIR/scripts/path_extractor.sh
+source $BASEDIR/common/setlocale.sh
+source $BASEDIR/common/path_extractor.sh
 
 if [ -z ${1} ]; then
   echo "ERROR set path to video"
@@ -59,3 +59,5 @@ gvaclassify model=$CLASS_MODEL_PATH model-proc=$(PROC_PATH $MODEL2_PROC) device=
 gvaclassify model=$CLASS_MODEL_PATH1 model-proc=$(PROC_PATH $MODEL3_PROC) device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
 gvaclassify model=$CLASS_MODEL_PATH2 model-proc=$MODEL4_PROC device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
 gvawatermark ! videoconvert ! autovideosink sync=false
+# gvawatermark ! videoconvert ! fpsdisplaysink video-sink=ximagesink sync=false"
+# gvawatermark ! videoconvert ! fpsdisplaysink video-sink=fakesink sync=false async-handling=true"
