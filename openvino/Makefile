@@ -1,4 +1,3 @@
-
 .PHONY: demo-cpu
 demo-cpu:
 	docker-compose build --force-rm --build-arg TARGET=CPU
