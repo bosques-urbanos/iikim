@@ -29,7 +29,6 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority:rw
       - ../media/:/home/user/media
-      - /home/user/ich/iikim/stacks/mers:/root/mers-user
       - $GVA_PATH:/root/gst-video-analytics
       - $INTEL_MODELS_PATH:/root/intel_models
       - $MODELS_PATH:/root/models
@@ -64,7 +63,6 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority:rw
       - ../media/:/home/user/media
-      - /home/user/ich/iikim/stacks/mers:/root/mers-user
       - $GVA_PATH:/root/gst-video-analytics
       - $INTEL_MODELS_PATH:/root/intel_models
       - $MODELS_PATH:/root/models
