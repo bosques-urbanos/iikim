@@ -23,8 +23,7 @@ GET_MODEL_PATH() {
         fi
     done
 
-    echo -e "\e[31mModel $model_name file was not found. Please set
-MODELS_PATH\e[0m" 1>&2
+    echo -e "\e[31mModel $model_name file was not found. Please set MODELS_PATH\e[0m" 1>&2
     exit 1
 }
 

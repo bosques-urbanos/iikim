@@ -30,7 +30,6 @@ services:
       - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
       - ./common/:/home/mers-user/common/
       - ../media/:/home/mers-user/media
-      - /home/user/ich/iikim/stacks/mers:/home/mers-user/iikim
       - $GVA_PATH:/home/mers-user/gst-video-analytics
       - $INTEL_MODELS_PATH:/home/mers-user/intel_models
       - $MODELS_PATH:/home/mers-user/models
@@ -66,7 +65,6 @@ services:
       - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
       - ./common/:/home/mers-user/common/
       - ../media/:/home/mers-user/media
-      - /home/user/ich/iikim/stacks/mers:/home/mers-user/iikim
       - $GVA_PATH:/home/mers-user/gst-video-analytics
       - $INTEL_MODELS_PATH:/home/mers-user/intel_models
       - $MODELS_PATH:/home/mers-user/models
@@ -102,7 +100,6 @@ services:
       - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
       - ./common/:/home/mers-user/common/
       - ../media/:/home/mers-user/media
-      - /home/user/ich/iikim/stacks/mers:/home/mers-user/iikim
       - $GVA_PATH:/home/mers-user/gst-video-analytics
       - $INTEL_MODELS_PATH:/home/mers-user/intel_models
       - $MODELS_PATH:/home/mers-user/models
