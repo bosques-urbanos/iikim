@@ -20,4 +20,6 @@ set -x
 
 cd $HOME
 
-gst-inspect-1.0 | grep gva
+ls video-examples
+
+/root/face_detection_and_classification.sh $INPUT
