@@ -1,0 +1,19 @@
+FROM xe1gyq/stacks-mers-mqtt
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ENV TIMEZONE America/Mexico_City
+
+ADD --chown=1000:1000 main.sh /home/mers-user/
+RUN /bin/bash -c 'chmod +x /home/mers-user/main.sh'
+ADD --chown=1000:1000 mers_vehicle_detection_publish_mqtt.sh /home/mers-user/
+RUN /bin/bash -c 'chmod +x /home/mers-user/mers_vehicle_detection_publish_mqtt.sh'
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ENTRYPOINT ["/home/mers-user/main.sh"]
+CMD ["/home/mers-user/main.sh", "${TARGET}", "${INPUT}"]
