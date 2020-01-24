@@ -1,4 +1,4 @@
-FROM gst-video-analytics:latest
+FROM xe1gyq/stacks-mers-mqtt
 
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
