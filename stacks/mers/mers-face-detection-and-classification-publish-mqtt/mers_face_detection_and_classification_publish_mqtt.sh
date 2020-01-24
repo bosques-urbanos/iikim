@@ -59,7 +59,7 @@ gst-launch-1.0 \
   gvaclassify model=$CLASS_MODEL_PATH1 model-proc=$(PROC_PATH $MODEL3_PROC) device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
   gvaclassify model=$CLASS_MODEL_PATH2 model-proc=$MODEL4_PROC device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
   gvametaconvert converter=json method=all ! \
-  gvametapublish method=mqtt address=172.17.0.1:1883 clientid=fdacpmDemo \
-    topic="application/fdacpm/demo" timeout=1000 ! queue ! \
+  gvametapublish method=mqtt address=172.17.0.1:1883 clientid=mfdacpmDemo \
+    topic="application/mfdacpm/demo" timeout=1000 ! queue ! \
   gvawatermark ! \
   videoconvert ! autovideosink sync=false

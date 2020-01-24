@@ -20,4 +20,4 @@ set -x
 
 cd $HOME
 
-/home/mers-user/mers_face_detection_and_classification.sh $INPUT
+/home/mers-user/mers_face_detection_and_classification_publish_mqtt.sh $INPUT

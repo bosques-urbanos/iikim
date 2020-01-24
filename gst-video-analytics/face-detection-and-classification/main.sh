@@ -20,6 +20,4 @@ set -x
 
 cd $HOME
 
-ls video-examples
-
 /root/face_detection_and_classification.sh $INPUT
