@@ -1,0 +1,55 @@
+FROM xe1gyq/openvino
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ARG OPENVINO_INSTALL=/opt/intel/openvino
+
+ENV TIMEZONE America/Mexico_City
+ENV HOME_USER /home/user
+USER root
+
+ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    vim \
+    python-setuptools \
+    git && \
+    apt autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade \
+    paho-mqtt \
+    imutils \
+    argparse
+
+WORKDIR /opt/intel/openvino/deployment_tools/tools/model_downloader
+
+RUN sudo ./downloader.py --name mobilenet-ssd --output_dir $HOME_USER
+
+WORKDIR /home/user
+RUN chown user /home/user
+USER user
+
+RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh"
+
+ADD --chown=1000:1000 main.py /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.py'
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
+
+RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh -pyver 3.5"
+RUN echo "source $OPENVINO_INSTALL/bin/setupvars.sh -pyver 3.5" >> /home/user/.bashrc
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ARG ID
+ENV ID="${ID}"
+
+ENTRYPOINT ["/home/user/main.sh"]
+CMD [${TARGET}, ${INPUT}]

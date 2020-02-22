@@ -1,6 +1,30 @@
 version: '3.7'
 services:
 
+  object-size-detector-cpp:
+    build:
+      context: ./object-size-detector-cpp/
+      dockerfile: Dockerfile.object-size-detector-cpp
+      args:
+        - TARGET=${TARGET:-CPU}
+    image: application/object-size-detector-cpp
+    container_name: application-object-size-detector-cpp
+    privileged: true
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - TARGET=${TARGET:-CPU}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../media/:/home/user/media
+
   restricted-zone-notifier-cpp:
     build:
       context: ./restricted-zone-notifier-cpp/
@@ -33,6 +57,30 @@ services:
         - TARGET=${TARGET:-CPU}
     image: application/restricted-zone-notifier-python
     container_name: application-restricted-zone-notifier-python
+    privileged: true
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - TARGET=${TARGET:-CPU}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../media/:/home/user/media
+
+  safety-gear-detector-cpp:
+    build:
+      context: ./safety-gear-detector-cpp/
+      dockerfile: Dockerfile.safety-gear-detector-cpp
+      args:
+        - TARGET=${TARGET:-CPU}
+    image: application/safety-gear-detector-cpp
+    container_name: application-safety-gear-detector-cpp
     privileged: true
     restart: always
     environment:

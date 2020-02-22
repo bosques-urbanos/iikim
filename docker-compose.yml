@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.gstreamer
       args:
         - CAMERA_IDENTIFICATION=${CAMERA_IDENTIFICATION:-camera-01}
-        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:9081/?action=stream}
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     image: application/gstreamer
@@ -18,7 +18,7 @@ services:
       - TZ=America/Mexico_City
       - DISPLAY=:0
       - CAMERA_IDENTIFICATION=${CAMERA_IDENTIFICATION:-camera-01}
-      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:9081/?action=stream}
       - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
       - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     network_mode: host
@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.haarcascades
       args:
         - SERVICE_NAME=${SERVICE_NAME:-HaarCascades}
-        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+        - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:9081/?action=stream}
         - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
         - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     image: application/haarcascades
@@ -46,12 +46,31 @@ services:
       - TZ=America/Mexico_City
       - DISPLAY=:0
       - SERVICE_NAME=${SERVICE_NAME:-HaarCascades}
-      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:8080/?action=stream}
+      - VIDEO_CAPTURE=${VIDEO_CAPTURE:-http://172.17.0.1:9081/?action=stream}
       - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
       - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
     network_mode: host
     ports:
       - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+  opencv-mobilenet-ssd-python:
+    build:
+      context: ./opencv/mobilenet-ssd-python/
+      dockerfile: Dockerfile.mobilenet-ssd-python
+    image: application/openrtist
+    container_name: application-opencv-mobilenet-ssd-python
+    privileged: true
+    restart: on-failure
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - ID=${ID:-camera-01}
+    network_mode: host
     devices:
       - /dev
     volumes:
