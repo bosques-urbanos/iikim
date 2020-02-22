@@ -1,6 +1,28 @@
 version: '3.7'
 services:
 
+  action-recognition:
+    build:
+      context: ./action-recognition/
+      dockerfile: Dockerfile.action-recognition
+    image: application/action-recognition
+    container_name: application-action-recognition
+    privileged: true
+    restart: on-failure
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - DEVICE=${DEVICE:-CPU}
+      - ID=${ID:-camera-01}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - SINK_HOST_IP=${SINK_HOST_IP:-172.17.0.1}
+      - SINK_HOST_PORT=${SINK_HOST_PORT:-5001}
+    network_mode: host
+    devices:
+      - /dev
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
   gstreamer:
     build:
       context: ./gstreamer/
