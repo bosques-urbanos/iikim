@@ -25,6 +25,29 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ../media/:/home/user/media
 
+  openvino-for-smartcity:
+    build:
+      context: ./openvino-for-smartcity/
+      dockerfile: Dockerfile.openvino-for-smartcity
+      args:
+        - TARGET=${TARGET:-CPU}
+    image: application/openvino-for-smartcity
+    container_name: application-openvino-for-smartcity
+    privileged: true
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - TARGET=${TARGET:-CPU}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
   restricted-zone-notifier-cpp:
     build:
       context: ./restricted-zone-notifier-cpp/
