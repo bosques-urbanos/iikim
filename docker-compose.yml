@@ -83,7 +83,7 @@ services:
     build:
       context: ./opencv/mobilenet-ssd-python/
       dockerfile: Dockerfile.mobilenet-ssd-python
-    image: application/openrtist
+    image: application/opencv-mobilenet-ssd-python
     container_name: application-opencv-mobilenet-ssd-python
     privileged: true
     restart: on-failure
