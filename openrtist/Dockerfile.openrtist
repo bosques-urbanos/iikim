@@ -20,6 +20,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN python3 -m pip install --no-cache-dir \
+    'gabriel-client==0.0.4' \
+    'gabriel-server==0.0.9' \
+    'opencv-python<5' \
+    protobuf \
+    py-cpuinfo \
+    PyQt5 \
+    pyzmq \
+    'torchvision<0.5' \
+    websockets \
+    zmq
+
 RUN add-apt-repository ppa:intel-opencl/intel-opencl && \
     apt-get update && \
     apt-get install -y --no-install-recommends intel-opencl-icd
@@ -29,10 +41,10 @@ WORKDIR /home/user
 RUN git clone https://github.com/cmusatyalab/openrtist.git
 
 RUN cd openrtist/server/ && \
-    pip3 install -r requirements.txt
+    python3 -m pip3 install -r requirements.txt
 
-EXPOSE 7070 8021 9098 9099 9111 22222
+EXPOSE 5555 7070 8021 9098 9099 9111 22222
 
 CMD ["bash", "-c", "cd /home/user/openrtist/server/ && \
                     source /opt/intel/openvino/bin/setupvars.sh && \
-                    python3 main.py"]
+                    ./main.py"]
