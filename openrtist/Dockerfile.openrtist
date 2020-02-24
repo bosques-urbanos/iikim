@@ -29,9 +29,9 @@ WORKDIR /home/user
 RUN git clone https://github.com/cmusatyalab/openrtist.git
 
 RUN cd openrtist/server/ && \
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 
-EXPOSE 7070 8021 9098 9111 22222
+EXPOSE 7070 8021 9098 9099 9111 22222
 
 CMD ["bash", "-c", "cd /home/user/openrtist/server/ && \
                     source /opt/intel/openvino/bin/setupvars.sh && \
