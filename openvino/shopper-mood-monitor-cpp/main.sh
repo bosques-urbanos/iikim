@@ -46,11 +46,10 @@ esac
 
 INPUT="-i=./face-demographics-walking-and-pause.mp4"
 
-echo $TARGET $INPUT
-
 cd /home/user/shopper-mood-monitor-cpp/build/
 ./monitor \
   -m=/home/user/intel/face-detection-adas-0001/${FP}/face-detection-adas-0001.bin \
   -c=/home/user/intel/face-detection-adas-0001/${FP}/face-detection-adas-0001.xml \
   -sm=/home/user/intel/emotions-recognition-retail-0003/${FP}/emotions-recognition-retail-0003.bin \
-  -sc=/home/user/intel/emotions-recognition-retail-0003/${FP}/emotions-recognition-retail-0003.xml
+  -sc=/home/user/intel/emotions-recognition-retail-0003/${FP}/emotions-recognition-retail-0003.xml \
+  $INPUT
