@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+
+  dlrs-restricted-zone-notifier-python:
+    build:
+      context: ./dlrs-restricted-zone-notifier-python/
+      dockerfile: Dockerfile.dlrs-restricted-zone-notifier-python
+      args:
+        - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    image: application/dlrs-restricted-zone-notifier-python
+    container_name: application-dlrs-restricted-zone-notifier-python
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    network_mode: host
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
+      - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
+      - ../media/:/workspace/media
