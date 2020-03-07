@@ -1,0 +1,28 @@
+FROM clearlinux/stacks-dlrs_2-mkl
+
+RUN pip install opencv-python paho-mqtt
+
+RUN git clone https://github.com/opencv/open_model_zoo.git && \
+    cd ~/workspace/open_model_zoo/ && \
+    git checkout -b 2019 origin/2019 && \
+    cd model_downloader && \
+    python downloader.py --name face-detection-retail-0004 -o ~/ && \
+    python downloader.py --name landmarks-regression-retail-0009 -o ~/ && \
+    python downloader.py --name face-reidentification-retail-0095 -o ~/
+
+RUN cd ~/workspace/open_model_zoo/ && \
+    git checkout master && \
+    cd demos/python_demos/face_recognition_demo/ && \
+    pip install -r requirements.txt
+
+ADD --chown=1000:1000 main.sh /workspace/
+RUN /bin/bash -c 'chmod +x /workspace/main.sh'
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ENTRYPOINT ["/workspace/main.sh"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}"]
