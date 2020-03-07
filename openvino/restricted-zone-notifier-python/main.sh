@@ -42,7 +42,7 @@ case $TARGET in
 esac
 
 if [[ $INPUT ]]; then
-   sed -i "4s|.*|\"video\":\"${INPUT}\"|" /home/user/restricted-zone-notifier-cpp/resources/config.json
+   sed -i "6s|.*|\"video\":\"${INPUT}\"|" /home/user/restricted-zone-notifier-python/resources/config.json
 fi
 
 cd /home/user/restricted-zone-notifier-python/application/
