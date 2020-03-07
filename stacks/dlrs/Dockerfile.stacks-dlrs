@@ -1,0 +1,24 @@
+FROM clearlinux/stacks-dlrs_2-mkl
+
+RUN pip install opencv-python paho-mqtt
+
+RUN git clone -b 2019 https://github.com/opencv/open_model_zoo.git && \
+    cd ~/workspace/open_model_zoo/ && \
+    cd model_downloader && \
+    python downloader.py --name person-detection-retail-0013 -o ~/
+
+RUN git clone --single-branch -b master https://github.com/xe1gyq/restricted-zone-notifier-python.git && \
+    pip install opencv-python paho-mqtt && \
+    export PYTHONPATH=/usr/local/lib/inference-engine/python_api/python3.7/:$PYTHONPATH
+
+ADD --chown=1000:1000 main.sh /workspace/
+RUN /bin/bash -c 'chmod +x /workspace/main.sh'
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ENTRYPOINT ["/workspace/main.sh"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}"]
