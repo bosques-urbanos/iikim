@@ -45,11 +45,11 @@ RUN echo "source $OPENVINO_INSTALL/bin/setupvars.sh" >> /home/user/.bashrc
 ARG TARGET
 ENV TARGET="${TARGET}"
 
-ARG VIDEO
-ENV VIDEO="${VIDEO}"
+ARG INPUT
+ENV INPUT="${INPUT}"
 
 ARG ENTRANCE
 ENV ENTRANCE=${ENTRANCE}
 
 ENTRYPOINT ["/home/user/main.sh"]
-CMD ["/home/user/main.sh", "${TARGET}", ${VIDEO}, ${ENTRANCE}]
+CMD ["/home/user/main.sh", "${TARGET}", ${INPUT}, ${ENTRANCE}]

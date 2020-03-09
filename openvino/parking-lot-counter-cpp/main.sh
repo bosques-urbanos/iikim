@@ -51,5 +51,4 @@ cd /home/user/parking-lot-counter-cpp/build/
 ./monitor \
   -m=/home/user/intel/pedestrian-and-vehicle-detector-adas-0001/${FP}/pedestrian-and-vehicle-detector-adas-0001.bin \
   -c=/home/user/intel/pedestrian-and-vehicle-detector-adas-0001/${FP}/pedestrian-and-vehicle-detector-adas-0001.xml \
-  $TARGET \
-  -i=$VIDEO
+  $TARGET

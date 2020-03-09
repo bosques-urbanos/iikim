@@ -44,7 +44,11 @@ case $TARGET in
 
 esac
 
-INPUT="-i=./face-demographics-walking-and-pause.mp4"
+if [[ $INPUT ]]; then
+   INPUT="-i=$INPUT"
+else
+   INPUT="-i=./face-demographics-walking-and-pause.mp4"
+fi
 
 cd /home/user/shopper-mood-monitor-cpp/build/
 ./monitor \
