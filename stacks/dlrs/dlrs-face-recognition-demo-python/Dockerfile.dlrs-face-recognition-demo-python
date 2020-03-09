@@ -13,7 +13,7 @@ RUN git clone https://github.com/opencv/open_model_zoo.git && \
 RUN cd ~/workspace/open_model_zoo/ && \
     git checkout master && \
     cd demos/python_demos/face_recognition_demo/ && \
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 
 ADD --chown=1000:1000 main.sh /workspace/
 RUN /bin/bash -c 'chmod +x /workspace/main.sh'

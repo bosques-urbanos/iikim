@@ -17,10 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git && \
     rm -rf /var/lib/apt/lists/*
 
-ADD --chown=1000:1000 main.sh /home/user/
-RUN /bin/bash -c 'chmod +x /home/user/main.sh'
-ADD --chown=1000:1000 main.cpp /home/user/
-
 RUN chown -R user /home/user
 USER user
 
@@ -28,6 +24,9 @@ WORKDIR /opt/intel/openvino/deployment_tools/tools/model_downloader
 RUN sudo ./downloader.py --name pedestrian-and-vehicle-detector-adas-0001 --output_dir $HOME_USER
 
 WORKDIR /home/user
+
+ADD --chown=1000:1000 main.cpp /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.cpp'
 
 RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh && \
     git clone https://github.com/intel-iot-devkit/parking-lot-counter-cpp.git && \
@@ -38,6 +37,9 @@ RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh && \
     cd build/ && \
     cmake .. && \
     make"
+
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
 
 RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh"
 RUN echo "source $OPENVINO_INSTALL/bin/setupvars.sh" >> /home/user/.bashrc
