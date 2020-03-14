@@ -7,7 +7,6 @@ ARG OPENVINO_INSTALL=/opt/intel/openvino
 ENV TIMEZONE America/Mexico_City
 USER root
 ENV HOME_USER /home/user
-ENV OPENVINO_RELEASE 80e06c965a5a562f9f1df2782187e7f74b02e306
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -40,7 +39,6 @@ WORKDIR /home/user
 RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh && \
     git clone https://github.com/incluit/OpenVino-For-SmartCity.git && \
     cd OpenVino-For-SmartCity/ && \
-    git reset --hard $OPENVINO_RELEASE && \
     mkdir build && \
     cd build && \
     bash ../scripts/download_models.sh && \
