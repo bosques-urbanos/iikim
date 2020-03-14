@@ -1,0 +1,46 @@
+FROM xe1gyq/openvino
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ARG OPENVINO_INSTALL=/opt/intel/openvino
+
+ENV TIMEZONE America/Mexico_City
+USER root
+ENV HOME_USER /home/user
+
+ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN chown -R user /home/user
+USER user
+WORKDIR /home/user
+
+RUN pip install opencv-python paho-mqtt
+
+RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
+    python3 downloader.py --name face-detection-retail-0004 -o ~/ && \
+    python3 downloader.py --name landmarks-regression-retail-0009 -o ~/ && \
+    python3 downloader.py --name face-reidentification-retail-0095 -o ~/
+
+RUN cd /opt/intel/openvino/deployment_tools/open_model_zoo/demos/python_demos/face_recognition_demo && \
+    pip install -r requirements.txt
+ 
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
+
+RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh"
+RUN echo "source $OPENVINO_INSTALL/bin/setupvars.sh -pyver 3.5" >> /home/user/.bashrc
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ENTRYPOINT ["/home/user/main.sh"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}"]
