@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile.interactive-face-recognition-demo-python
       args:
         - TARGET=${TARGET:-CPU}
-        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/interactive-face-recognition-demo-python
     container_name: application-interactive-face-recognition-demo-python
     privileged: true
@@ -16,7 +15,6 @@ services:
       - TZ=America/Mexico_City
       - DISPLAY=:0
       - TARGET=${TARGET:-CPU}
-      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001

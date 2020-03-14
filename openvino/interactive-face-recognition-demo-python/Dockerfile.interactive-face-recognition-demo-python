@@ -20,7 +20,8 @@ RUN chown -R user /home/user
 USER user
 WORKDIR /home/user
 
-RUN pip install opencv-python paho-mqtt
+RUN pip install opencv-python paho-mqtt && \
+    wget -O ~/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4
 
 RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
     python3 downloader.py --name face-detection-retail-0004 -o ~/ && \
