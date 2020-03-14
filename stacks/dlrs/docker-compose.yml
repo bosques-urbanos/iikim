@@ -30,15 +30,15 @@ services:
       - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
       - ../media/:/workspace/media
 
-  dlrs-face-recognition-demo-python:
+  dlrs-interactive-face-recognition-demo-python:
     build:
-      context: ./dlrs-face-recognition-demo-python/
-      dockerfile: Dockerfile.dlrs-face-recognition-demo-python
+      context: ./dlrs-interactive-face-recognition-demo-python/
+      dockerfile: Dockerfile.dlrs-interactive-face-recognition-demo-python
       args:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
-    image: application/dlrs-face-recognition-demo-python
-    container_name: application-dlrs-face-recognition-demo-python
+    image: application/dlrs-interactive-face-recognition-demo-python
+    container_name: application-dlrs-interactive-face-recognition-demo-python
     privileged: true
     security_opt:
       - seccomp=unconfined
