@@ -25,6 +25,30 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ../media/:/home/user/media
 
+  multicamera-multiperson-demo-python:
+    build:
+      context: ./multicamera-multiperson-demo-python/
+      dockerfile: Dockerfile.multicamera-multiperson-demo-python
+      args:
+        - TARGET=${TARGET:-CPU}
+    image: application/multicamera-multiperson-demo-python
+    container_name: application-multicamera-multiperson-demo-python
+    privileged: true
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=:0
+      - TARGET=${TARGET:-CPU}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../media/:/home/user/media
+
   object-size-detector-cpp:
     build:
       context: ./object-size-detector-cpp/
