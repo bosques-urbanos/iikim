@@ -48,7 +48,6 @@ fi
 cd /home/user/restricted-zone-notifier-python/application/
 python3 restricted_zone_notifier.py \
   -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/person-detection-retail-0013/${FP}/person-detection-retail-0013.xml \
-  -l /opt/intel/openvino/inference_engine/lib/intel64/libcpu_extension_sse4.so \
   $TARGET
 #  -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.bin \
 #  -c=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.xml \
