@@ -58,3 +58,32 @@ services:
       - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
       - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
       - ../media/:/workspace/media/
+
+  dlrs-multicamera-multiperson-demo-python:
+    build:
+      context: ./dlrs-multicamera-multiperson-demo-python/
+      dockerfile: Dockerfile.dlrs-multicamera-multiperson-demo-python
+      args:
+        - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    image: application/dlrs-multicamera-multiperson-demo-python
+    container_name: application-dlrs-multicamera-multiperson-demo-python
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    network_mode: host
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
+      - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
+      - ../media/:/workspace/media/
