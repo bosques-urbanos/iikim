@@ -28,7 +28,7 @@ source /.bashrc
 case $TARGET in
 
      CPU)
-         TARGET='-d=CPU'
+         TARGET='-d_fd CPU -d_lm CPU -d_reid CPU'
          FP='FP32'
 	 EXTENSION='-l /usr/local/lib/inference-engine/libcpu_extension.so'
          ;;
