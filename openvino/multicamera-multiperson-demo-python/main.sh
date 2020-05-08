@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # =============================================================================
 # Variables
@@ -41,11 +41,9 @@ case $TARGET in
          ;;
 esac
 
-if [[ $INPUT ]]; then
-   INPUT="$INPUT"
-else
-   INPUT=/home/user/video.mp4
-fi
+echo "Input        : " $INPUT
+echo "Target       : " $TARGET
+echo "Statsd Server: " $STATSD_SERVER
 
 cd /home/user/open_model_zoo/demos/python_demos/multi_camera_multi_person_tracking/
 python3 multi_camera_multi_person_tracking.py \

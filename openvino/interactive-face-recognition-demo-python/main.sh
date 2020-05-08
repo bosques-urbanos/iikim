@@ -41,13 +41,12 @@ case $TARGET in
          ;;
 esac
 
-if [[ $INPUT ]]; then
-   INPUT="$INPUT"
-else
-   INPUT=/home/user/video.mp4
-fi
+echo "Input        : " $INPUT
+echo "Target       : " $TARGET
+echo "Statsd Server: " $STATSD_SERVER
 
 cd /home/user/open_model_zoo/demos/python_demos/face_recognition_demo
+
 python3 ./face_recognition_demo.py \
   -m_fd /home/user/intel/face-detection-retail-0004/${FP}/face-detection-retail-0004.xml \
   -m_lm /home/user/intel/landmarks-regression-retail-0009/${FP}/landmarks-regression-retail-0009.xml \

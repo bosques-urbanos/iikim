@@ -7,14 +7,17 @@ services:
       dockerfile: Dockerfile.interactive-face-recognition-demo-python
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/interactive-face-recognition-demo-python
     container_name: application-interactive-face-recognition-demo-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
     ports:
       - 5001:5001
@@ -31,14 +34,17 @@ services:
       dockerfile: Dockerfile.multicamera-multiperson-demo-python
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/multicamera-multiperson-demo-python
     container_name: application-multicamera-multiperson-demo-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
     ports:
       - 5001:5001
@@ -55,6 +61,7 @@ services:
       dockerfile: Dockerfile.object-size-detector-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/object-size-detector-cpp
     container_name: application-object-size-detector-cpp
     privileged: true
@@ -63,6 +70,7 @@ services:
       - TZ=America/Mexico_City
       - DISPLAY=:0
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -79,14 +87,16 @@ services:
       dockerfile: Dockerfile.openvino-for-smartcity
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/openvino-for-smartcity
     container_name: application-openvino-for-smartcity
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -102,14 +112,16 @@ services:
       dockerfile: Dockerfile.parking-lot-counter-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/parking-lot-counter-cpp
     container_name: application-parking-lot-counter-cpp
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -126,14 +138,16 @@ services:
       dockerfile: Dockerfile.restricted-zone-notifier-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/restricted-zone-notifier-cpp
     container_name: application-restricted-zone-notifier-cpp
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -150,14 +164,16 @@ services:
       dockerfile: Dockerfile.restricted-zone-notifier-python
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/restricted-zone-notifier-python
     container_name: application-restricted-zone-notifier-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -174,14 +190,16 @@ services:
       dockerfile: Dockerfile.safety-gear-detector-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/safety-gear-detector-cpp
     container_name: application-safety-gear-detector-cpp
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -198,14 +216,16 @@ services:
       dockerfile: Dockerfile.shopper-gaze-monitor-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/shopper-gaze-monitor-cpp
     container_name: application-shopper-gaze-monitor-cpp
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001
@@ -222,14 +242,16 @@ services:
       dockerfile: Dockerfile.shopper-mood-monitor-cpp
       args:
         - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/shopper-mood-monitor-cpp
     container_name: application-shopper-mood-monitor-cpp
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY==${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
     ports:
       - 5001:5001

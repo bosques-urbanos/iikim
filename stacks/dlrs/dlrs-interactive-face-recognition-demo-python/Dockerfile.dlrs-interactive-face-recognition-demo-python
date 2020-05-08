@@ -26,5 +26,8 @@ ENV TARGET="${TARGET}"
 ARG INPUT
 ENV INPUT="${INPUT}"
 
+ARG STATSD_SERVER
+ENV STATSD_SERVER="${STATSD_SERVER}"
+
 ENTRYPOINT ["/workspace/main.sh"]
-CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}", "${STATSD_SERVER}"]
