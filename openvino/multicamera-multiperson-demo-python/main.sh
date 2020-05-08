@@ -47,7 +47,7 @@ else
    INPUT=/home/user/video.mp4
 fi
 
-cd /opt/intel/openvino/deployment_tools/open_model_zoo/demos/python_demos/multi_camera_multi_person_tracking/
+cd /home/user/open_model_zoo/demos/python_demos/multi_camera_multi_person_tracking/
 python3 multi_camera_multi_person_tracking.py \
   -m ~/intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml \
   --m_reid ~/intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml \

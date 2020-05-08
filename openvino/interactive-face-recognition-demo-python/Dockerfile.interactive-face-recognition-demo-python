@@ -20,7 +20,8 @@ RUN chown -R user /home/user
 USER user
 WORKDIR /home/user
 
-RUN pip install opencv-python paho-mqtt && \
+RUN git clone https://github.com/bosques-urbanos/open_model_zoo.git && \
+    pip install opencv-python paho-mqtt && \
     wget -O ~/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4
 
 RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
@@ -28,7 +29,7 @@ RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
     python3 downloader.py --name landmarks-regression-retail-0009 -o ~/ && \
     python3 downloader.py --name face-reidentification-retail-0095 -o ~/
 
-RUN cd /opt/intel/openvino/deployment_tools/open_model_zoo/demos/python_demos/face_recognition_demo && \
+RUN cd /home/user/open_model_zoo/demos/python_demos/face_recognition_demo && \
     pip install -r requirements.txt && \
     pip install statsd
  
