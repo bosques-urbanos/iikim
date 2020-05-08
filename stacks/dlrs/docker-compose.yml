@@ -16,7 +16,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - QT_X11_NO_MITSHM=1
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
@@ -45,7 +45,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - QT_X11_NO_MITSHM=1
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
@@ -75,7 +75,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - QT_X11_NO_MITSHM=1
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
