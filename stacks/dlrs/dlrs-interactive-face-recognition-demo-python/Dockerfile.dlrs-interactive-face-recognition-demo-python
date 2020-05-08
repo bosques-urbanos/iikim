@@ -2,7 +2,8 @@ FROM clearlinux/stacks-dlrs_2-mkl
 
 RUN pip install opencv-python paho-mqtt
 
-RUN git clone https://github.com/bosques-urbanos/open_model_zoo.git && \
+RUN curl -o /workspace/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
+    git clone https://github.com/bosques-urbanos/open_model_zoo.git && \
     cd ~/workspace/open_model_zoo/ && \
     git checkout -b 2019 origin/2019 && \
     cd model_downloader && \

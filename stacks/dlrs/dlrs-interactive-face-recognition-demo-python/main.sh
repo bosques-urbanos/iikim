@@ -30,10 +30,16 @@ case $TARGET in
      CPU)
          TARGET='-d_fd CPU -d_lm CPU -d_reid CPU'
          FP='FP32'
-	 EXTENSION='-l /usr/local/lib/inference-engine/libcpu_extension.so'
+         EXTENSION='-l /usr/local/lib/inference-engine/libcpu_extension.so'
          ;;
 
 esac
+
+if [[ $INPUT ]]; then
+   INPUT="$INPUT"
+else
+   INPUT=/workspace/video.mp4
+fi
 
 cd /workspace/open_model_zoo/demos/python_demos/face_recognition_demo/
 
