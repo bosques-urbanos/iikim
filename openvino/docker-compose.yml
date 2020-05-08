@@ -9,12 +9,13 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/interactive-face-recognition-demo-python
+    hostname: ${HOSTNAME}
     container_name: application-interactive-face-recognition-demo-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
       - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
@@ -36,12 +37,13 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/multicamera-multiperson-demo-python
+    hostname: ${HOSTNAME}
     container_name: application-multicamera-multiperson-demo-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
       - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
@@ -63,6 +65,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/object-size-detector-cpp
+    hostname: ${HOSTNAME}
     container_name: application-object-size-detector-cpp
     privileged: true
     restart: always
@@ -89,6 +92,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/openvino-for-smartcity
+    hostname: ${HOSTNAME}
     container_name: application-openvino-for-smartcity
     privileged: true
     restart: always
@@ -114,6 +118,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/parking-lot-counter-cpp
+    hostname: ${HOSTNAME}
     container_name: application-parking-lot-counter-cpp
     privileged: true
     restart: always
@@ -140,6 +145,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/restricted-zone-notifier-cpp
+    hostname: ${HOSTNAME}
     container_name: application-restricted-zone-notifier-cpp
     privileged: true
     restart: always
@@ -166,6 +172,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/restricted-zone-notifier-python
+    hostname: ${HOSTNAME}
     container_name: application-restricted-zone-notifier-python
     privileged: true
     restart: always
@@ -192,6 +199,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/safety-gear-detector-cpp
+    hostname: ${HOSTNAME}
     container_name: application-safety-gear-detector-cpp
     privileged: true
     restart: always
@@ -218,6 +226,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/shopper-gaze-monitor-cpp
+    hostname: ${HOSTNAME}
     container_name: application-shopper-gaze-monitor-cpp
     privileged: true
     restart: always
@@ -244,6 +253,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/shopper-mood-monitor-cpp
+    hostname: ${HOSTNAME}
     container_name: application-shopper-mood-monitor-cpp
     privileged: true
     restart: always

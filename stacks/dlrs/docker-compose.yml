@@ -9,6 +9,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/dlrs-restricted-zone-notifier-python
+    hostname: ${HOSTNAME}
     container_name: application-dlrs-restricted-zone-notifier-python
     privileged: true
     security_opt:
@@ -38,6 +39,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/dlrs-interactive-face-recognition-demo-python
+    hostname: ${HOSTNAME}
     container_name: application-dlrs-interactive-face-recognition-demo-python
     privileged: true
     security_opt:
@@ -68,6 +70,7 @@ services:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     image: application/dlrs-multicamera-multiperson-demo-python
+    hostname: ${HOSTNAME}
     container_name: application-dlrs-multicamera-multiperson-demo-python
     privileged: true
     security_opt:

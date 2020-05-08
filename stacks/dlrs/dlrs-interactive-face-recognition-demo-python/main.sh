@@ -35,6 +35,7 @@ case $TARGET in
 
 esac
 
+echo "Host         : " $HOSTNAME
 echo "Input        : " $INPUT
 echo "Target       : " $TARGET
 echo "Statsd Server: " $STATSD_SERVER
