@@ -46,6 +46,5 @@ python3 ./face_recognition_demo.py \
   -m_fd $MODEL_FACE_DETECTION/face-detection-retail-0004.xml \
   -m_lm $MODEL_FACIAL_LANDMARKS_REGRESSION/landmarks-regression-retail-0009.xml \
   -m_reid $MODEL_FACE_REIDENTIFICATION/face-reidentification-retail-0095.xml \
-  $EXTENSION \
   -fg $FACES \
   -i $INPUT

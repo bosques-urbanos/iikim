@@ -44,6 +44,5 @@ cd /workspace/open_model_zoo/demos/python_demos/multi_camera_multi_person_tracki
 python3 multi_camera_multi_person_tracking.py \
   -m $MODEL_PERSON_DETECTION/person-detection-retail-0013.xml \
   --m_reid $MODEL_PERSON_REIDENTIFICATION/person-reidentification-retail-0031.xml \
-  $EXTENSION \
   --config config.py \
   -i $INPUT

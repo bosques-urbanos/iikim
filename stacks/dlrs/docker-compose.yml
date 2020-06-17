@@ -21,6 +21,7 @@ services:
       - QT_X11_NO_MITSHM=1
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
     devices:
       - /dev
