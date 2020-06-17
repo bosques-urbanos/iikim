@@ -3,6 +3,7 @@ FROM xe1gyq/openvino
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
 ARG OPENVINO_INSTALL=/opt/intel/openvino
+ARG IIKIM_BRANCH=iikim
 
 ENV TIMEZONE America/Mexico_City
 USER root
@@ -21,7 +22,7 @@ USER user
 WORKDIR /home/user
 
 RUN wget -O ~/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
-    git clone https://github.com/bosques-urbanos/open_model_zoo.git
+    git clone -b ${IIKIM_BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git
 
 RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
     python3 downloader.py --name face-detection-retail-0004 -o ~/ && \
@@ -31,7 +32,7 @@ RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
 RUN cd /home/user/open_model_zoo/demos/python_demos/face_recognition_demo && \
     pip install -r requirements.txt && \
     pip install statsd
- 
+
 ADD --chown=1000:1000 main.sh /home/user/
 RUN /bin/bash -c 'chmod +x /home/user/main.sh'
 

@@ -1,7 +1,9 @@
 FROM sysstacks/dlrs-tensorflow2-clearlinux
 
+ARG IIKIM_DLRS_BRANCH=iikim-dlrs
+
 RUN curl -o /workspace/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
-    git clone https://github.com/bosques-urbanos/open_model_zoo.git && \
+    git clone -b ${IIKIM_DLRS_BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git && \
     cd ~/workspace/open_model_zoo/ && \
     git checkout -b 2019 origin/2019 && \
     cd model_downloader && \
@@ -10,7 +12,7 @@ RUN curl -o /workspace/video.mp4 https://raw.githubusercontent.com/intel-iot-dev
     python downloader.py --name face-reidentification-retail-0095 -o ~/
 
 RUN cd ~/workspace/open_model_zoo/ && \
-    git checkout master && \
+    git checkout ${IIKIM_DLRS_BRANCH} && \
     cd demos/python_demos/face_recognition_demo/ && \
     pip3 install -r requirements.txt && \
     pip3 install statsd
