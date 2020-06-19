@@ -154,6 +154,8 @@ services:
       - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - MQTT_SERVER=${MQTT_SERVER:-172.17.0.1}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
     ports:
       - 5001:5001
@@ -181,6 +183,8 @@ services:
       - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - MQTT_SERVER=${MQTT_SERVER:-172.17.0.1}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
     ports:
       - 5001:5001

@@ -20,8 +20,7 @@ cd $HOME
 
 source $OPENVINO_INSTALLATION/bin/setupvars.sh
 
-export MQTT_HOST=172.17.0.1
-export MQTT_CLIENT_ID=restricted-zone-notifier-cpp
+export MQTT_CLIENT_ID=restricted-zone-notifier-python
 
 case $TARGET in
 
@@ -45,10 +44,13 @@ if [[ $INPUT ]]; then
    sed -i "6s|.*|\"video\":\"${INPUT}\"|" /home/user/restricted-zone-notifier-python/resources/config.json
 fi
 
+echo "Host         : " $HOSTNAME
+echo "Input        : " $INPUT
+echo "Target       : " $TARGET
+echo "MQTT Server  : " $MQTT_SERVER
+echo "Statsd Server: " $STATSD_SERVER
+
 cd /home/user/restricted-zone-notifier-python/application/
 python3 restricted_zone_notifier.py \
   -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/person-detection-retail-0013/${FP}/person-detection-retail-0013.xml \
   $TARGET
-#  -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.bin \
-#  -c=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/pedestrian-detection-adas-0002/${FP}/pedestrian-detection-adas-0002.xml \
-#  $TARGET

@@ -4,7 +4,6 @@
 # Variables
 # =============================================================================
 
-export MQTT_HOST=172.17.0.1
 export MQTT_CLIENT_ID=restricted-zone-notifier-python
 
 export MODEL=/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt
@@ -36,6 +35,7 @@ fi
 echo "Host         : " $HOSTNAME
 echo "Input        : " $INPUT
 echo "Target       : " $TARGET
+echo "MQTT Server  : " $MQTT_SERVER
 echo "Statsd Server: " $STATSD_SERVER
 
 cd /workspace/restricted-zone-notifier-python/application/
