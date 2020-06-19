@@ -71,7 +71,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=:0
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -98,7 +98,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -124,7 +124,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -151,7 +151,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -178,7 +178,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -191,21 +191,21 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ../media/:/home/user/media
 
-  safety-gear-detector-cpp:
+  shopper-gaze-monitor-python:
     build:
-      context: ./safety-gear-detector-cpp/
-      dockerfile: Dockerfile.safety-gear-detector-cpp
+      context: ./shopper-gaze-monitor-python/
+      dockerfile: Dockerfile.shopper-gaze-monitor-python
       args:
         - TARGET=${TARGET:-CPU}
         - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
-    image: application/safety-gear-detector-cpp
+    image: application/shopper-gaze-monitor-python
     hostname: ${HOSTNAME}
-    container_name: application-safety-gear-detector-cpp
+    container_name: application-shopper-gaze-monitor-python
     privileged: true
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host
@@ -218,32 +218,59 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ../media/:/home/user/media
 
-  shopper-gaze-monitor-cpp:
-    build:
-      context: ./shopper-gaze-monitor-cpp/
-      dockerfile: Dockerfile.shopper-gaze-monitor-cpp
-      args:
-        - TARGET=${TARGET:-CPU}
-        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
-    image: application/shopper-gaze-monitor-cpp
-    hostname: ${HOSTNAME}
-    container_name: application-shopper-gaze-monitor-cpp
-    privileged: true
-    restart: always
-    environment:
-      - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
-      - TARGET=${TARGET:-CPU}
-      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
-    network_mode: host
-    ports:
-      - 5001:5001
-    devices:
-      - /dev
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ../media/:/home/user/media
+  #safety-gear-detector-cpp:
+  #  build:
+  #    context: ./safety-gear-detector-cpp/
+  #    dockerfile: Dockerfile.safety-gear-detector-cpp
+  #    args:
+  #      - TARGET=${TARGET:-CPU}
+  #      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+  #  image: application/safety-gear-detector-cpp
+  #  hostname: ${HOSTNAME}
+  #  container_name: application-safety-gear-detector-cpp
+  #  privileged: true
+  #  restart: always
+  #  environment:
+  #    - TZ=America/Mexico_City
+  #    - DISPLAY=${DISPLAY:-:0}
+  #    - TARGET=${TARGET:-CPU}
+  #    - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+  #  network_mode: host
+  #  ports:
+  #    - 5001:5001
+  #  devices:
+  #    - /dev
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime:ro
+  #    - /tmp/.X11-unix:/tmp/.X11-unix
+  #    - ../media/:/home/user/media
+
+  #shopper-gaze-monitor-cpp:
+  #  build:
+  #    context: ./shopper-gaze-monitor-cpp/
+  #    dockerfile: Dockerfile.shopper-gaze-monitor-cpp
+  #    args:
+  #      - TARGET=${TARGET:-CPU}
+  #      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+  #  image: application/shopper-gaze-monitor-cpp
+  #  hostname: ${HOSTNAME}
+  #  container_name: application-shopper-gaze-monitor-cpp
+  #  privileged: true
+  #  restart: always
+  #  environment:
+  #    - TZ=America/Mexico_City
+  #    - DISPLAY=${DISPLAY:-:0}
+  #    - TARGET=${TARGET:-CPU}
+  #    - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+  #  network_mode: host
+  #  ports:
+  #    - 5001:5001
+  #  devices:
+  #    - /dev
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime:ro
+  #    - /tmp/.X11-unix:/tmp/.X11-unix
+  #    - ../media/:/home/user/media
 
   shopper-mood-monitor-cpp:
     build:
@@ -259,7 +286,7 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY==${DISPLAY:-:0}
+      - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
     network_mode: host

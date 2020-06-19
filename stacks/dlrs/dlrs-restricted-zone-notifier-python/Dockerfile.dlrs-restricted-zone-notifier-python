@@ -8,7 +8,7 @@ RUN curl -o /workspace/video.mp4 https://raw.githubusercontent.com/intel-iot-dev
     cd model_downloader && \
     python downloader.py --name person-detection-retail-0013 -o ~/
 
-RUN git clone --single-branch -b master https://github.com/xe1gyq/restricted-zone-notifier-python.git && \
+RUN git clone --single-branch -b OpenVINO_2019_R3 https://github.com/xe1gyq/restricted-zone-notifier-python.git && \
     pip install opencv-python paho-mqtt
 
 ADD --chown=1000:1000 main.sh /workspace/
