@@ -32,6 +32,37 @@ services:
       - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
       - ../media/:/workspace/media
 
+  dlrs-shopper-gaze-monitor-python:
+    build:
+      context: ./dlrs-shopper-gaze-monitor-python/
+      dockerfile: Dockerfile.dlrs-shopper-gaze-monitor-python
+      args:
+        - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    image: application/dlrs-shopper-gaze-monitor-python
+    hostname: ${HOSTNAME}
+    container_name: application-dlrs-shopper-gaze-monitor-python
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_X11_NO_MITSHM=1
+      - TARGET=${TARGET:-CPU}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
+    network_mode: host
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
+      - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
+      - ../media/:/workspace/media
+
   dlrs-interactive-face-recognition-demo-python:
     build:
       context: ./dlrs-interactive-face-recognition-demo-python/

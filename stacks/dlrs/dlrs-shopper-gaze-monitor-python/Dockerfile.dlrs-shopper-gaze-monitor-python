@@ -1,0 +1,28 @@
+FROM sysstacks/dlrs-tensorflow2-clearlinux
+
+RUN pip install opencv-python paho-mqtt
+
+RUN curl -o /workspace/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
+    git clone --single-branch -b 2019 https://github.com/opencv/open_model_zoo.git && \
+    cd ~/workspace/open_model_zoo/ && \
+    cd model_downloader && \
+    python downloader.py --name face-detection-adas-0001 -o ~/ && \
+    python downloader.py --name head-pose-estimation-adas-0001 -o ~/
+
+RUN git clone --single-branch -b OpenVINO_2019_R3 https://github.com/xe1gyq/shopper-gaze-monitor-python.git && \
+    pip install opencv-python paho-mqtt
+
+ADD --chown=1000:1000 main.sh /workspace/
+RUN /bin/bash -c 'chmod +x /workspace/main.sh'
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ARG STATSD_SERVER
+ENV STATSD_SERVER="${STATSD_SERVER}"
+
+ENTRYPOINT ["/workspace/main.sh"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}", "${STATSD_SERVER}"]
