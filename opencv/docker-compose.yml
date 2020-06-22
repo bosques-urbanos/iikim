@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+
+  mobilenet-ssd-python:
+    build:
+      context: ./mobilenet-ssd-python/
+      dockerfile: Dockerfile.mobilenet-ssd-python
+      args:
+        - TARGET=${TARGET:-CPU}
+        - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+    image: application/mobilenet-ssd-python
+    hostname: ${HOSTNAME}
+    container_name: application-mobilenet-ssd-python
+    privileged: true
+    restart: always
+    environment:
+      - TZ=America/Mexico_City
+      - DISPLAY=${DISPLAY:-:0}
+      - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - MODEL=${MODEL:-mobilenet-ssd}
+      - THRESHOLD=${THRESHOLD:-.75}
+      - LABEL=${LABEL:-dog}
+      - MQTT_SERVER=${MQTT_SERVER:-172.17.0.1}
+      - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
+    network_mode: host
+    ports:
+      - 5001:5001
+    devices:
+      - /dev
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../media/:/home/user/media
