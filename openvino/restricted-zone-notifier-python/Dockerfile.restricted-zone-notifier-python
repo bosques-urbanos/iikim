@@ -24,7 +24,10 @@ WORKDIR /home/user
 RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh -pyver 3.5 && \
     git clone --single-branch -b OpenVINO_2019_R3 https://github.com/xe1gyq/restricted-zone-notifier-python.git && \
     cd restricted-zone-notifier-python/ && \
-    bash ./setup.sh"
+    bash ./setup.sh && \
+    cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
+    sudo ./downloader.py --name pedestrian-detection-adas-0002 -o ~/ && \
+    sudo ./downloader.py --name pedestrian-detection-adas-binary-0001 -o ~/"
 
 ADD --chown=1000:1000 main.sh /home/user/
 RUN /bin/bash -c 'chmod +x /home/user/main.sh'
