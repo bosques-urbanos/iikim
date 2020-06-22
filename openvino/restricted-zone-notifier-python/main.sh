@@ -47,10 +47,12 @@ fi
 echo "Host         : " $HOSTNAME
 echo "Input        : " $INPUT
 echo "Target       : " $TARGET
+echo "Threshold    : " $THRESHOLD
 echo "MQTT Server  : " $MQTT_SERVER
 echo "Statsd Server: " $STATSD_SERVER
 
 cd /home/user/restricted-zone-notifier-python/application/
 python3 restricted_zone_notifier.py \
   -m=/opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader/intel/person-detection-retail-0013/${FP}/person-detection-retail-0013.xml \
-  $TARGET
+  $TARGET \
+  -th $THRESHOLD

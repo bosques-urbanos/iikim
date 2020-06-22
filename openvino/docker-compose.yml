@@ -186,6 +186,7 @@ services:
       - DISPLAY=${DISPLAY:-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
+      - THRESHOLD=${THRESHOLD:-.75}
       - MQTT_SERVER=${MQTT_SERVER:-172.17.0.1}
       - STATSD_SERVER=${STATSD_SERVER:-172.17.0.1}
     network_mode: host
