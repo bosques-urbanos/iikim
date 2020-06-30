@@ -6,7 +6,7 @@ set -x
 # Variables
 # =============================================================================
 
-# None
+export MODELS_PATH=/home/mers-user/intel
 
 # =============================================================================
 # Functions
@@ -19,5 +19,9 @@ set -x
 # =============================================================================
 
 cd $HOME
+echo $MODELS_PATH
+ls $MODELS_PATH
+ls /home/mers-user/intel/face-detection-adas-0001/FP32/
 
-/root/face_detection_and_classification.sh $INPUT
+ls /home/mers-user/gst-video-analytics/samples/shell/
+/home/mers-user/gst-video-analytics/samples/shell/face_detection_and_classification.sh $INPUT

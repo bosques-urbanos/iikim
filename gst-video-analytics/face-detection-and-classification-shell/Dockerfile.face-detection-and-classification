@@ -1,0 +1,39 @@
+FROM sysstacks/mers-clearlinux
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ENV TIMEZONE America/Mexico_City
+
+USER 0
+RUN swupd bundle-add git python-basic
+
+USER mers-user
+WORKDIR /home/mers-user
+ARG BRANCH=2019_R3
+
+RUN curl -o /home/mers-user/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4
+
+RUN git clone -b ${BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git && \
+    cd /home/mers-user/open_model_zoo/tools/downloader && \
+    ls && \
+    pip install -r requirements.in && \
+    python downloader.py --name face-detection-adas-0001 -o ~/ && \
+    python downloader.py --name age-gender-recognition-retail-0013 -o ~/ && \
+    python downloader.py --name emotions-recognition-retail-0003 -o ~/ && \
+    python downloader.py --name landmarks-regression-retail-0009 -o ~/
+
+ADD --chown=1000:1000 main.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/main.sh'
+ADD --chown=1000:1000 face_detection_and_classification.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/face_detection_and_classification.sh'
+
+WORKDIR /home/mers-user
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ENTRYPOINT ["/home/mers-user/main.sh"]
+CMD ["/home/mers-user/main.sh", "${TARGET}", "${INPUT}"]
