@@ -1,16 +1,16 @@
-FROM gst-video-analytics:latest
+FROM sysstacks/mers-clearlinux
 
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
 ENV TIMEZONE America/Mexico_City
 ENV USER root
 
-ADD --chown=1000:1000 main.sh /root/
-RUN /bin/bash -c 'chmod +x /root/main.sh'
-ADD --chown=1000:1000 face_detection_and_classification.sh /root/
-RUN /bin/bash -c 'chmod +x /root/face_detection_and_classification.sh'
+ADD --chown=1000:1000 main.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/main.sh'
+ADD --chown=1000:1000 face_detection_and_classification.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/face_detection_and_classification.sh'
 
-WORKDIR /root
+WORKDIR /home/mers-user
 
 ARG TARGET
 ENV TARGET="${TARGET}"
@@ -18,5 +18,5 @@ ENV TARGET="${TARGET}"
 ARG INPUT
 ENV INPUT="${INPUT}"
 
-ENTRYPOINT ["/root/main.sh"]
-CMD ["/root/main.sh", "${TARGET}", "${INPUT}"]
+ENTRYPOINT ["/home/mers-user/main.sh"]
+CMD ["/home/mers-user/main.sh", "${TARGET}", "${INPUT}"]

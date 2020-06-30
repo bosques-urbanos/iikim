@@ -1,13 +1,15 @@
-FROM gst-video-analytics:latest
+FROM sysstacks/mers-clearlinux
 
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
 ENV TIMEZONE America/Mexico_City
 
-ADD --chown=1000:1000 main.sh /root/
-RUN /bin/bash -c 'chmod +x /root/main.sh'
-ADD --chown=1000:1000 vehicle_detection_publish_mqtt.sh /root/
-RUN /bin/bash -c 'chmod +x /root/vehicle_detection_publish_mqtt.sh'
+ADD --chown=1000:1000 main.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/main.sh'
+ADD --chown=1000:1000 vehicle_detection_publish_mqtt.sh /home/mers-user
+RUN /bin/bash -c 'chmod +x /home/mers-user/vehicle_detection_publish_mqtt.sh'
+
+WORKDIR /home/mers-user
 
 ARG TARGET
 ENV TARGET="${TARGET}"
@@ -15,5 +17,5 @@ ENV TARGET="${TARGET}"
 ARG INPUT
 ENV INPUT="${INPUT}"
 
-ENTRYPOINT ["/root/main.sh"]
-CMD ["/root/main.sh", "${TARGET}", "${INPUT}"]
+ENTRYPOINT ["/home/mers-user/main.sh"]
+CMD ["/home/mers-user/main.sh", "${TARGET}", "${INPUT}"]
