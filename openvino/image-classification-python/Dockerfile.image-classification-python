@@ -1,0 +1,66 @@
+FROM xe1gyq/openvino
+
+MAINTAINER Abraham Arce "xe1gyq@gmail.com"
+
+ARG OPENVINO_INSTALL=/opt/intel/openvino
+ARG IIKIM_BRANCH=iikim
+
+ENV TIMEZONE America/Mexico_City
+USER root
+ENV HOME_USER /home/user
+
+ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN chown -R user /home/user
+USER user
+WORKDIR /home/user
+
+RUN wget -O ~/picture.jog https://assets.bonappetit.com/photos/57daf52cbf7e91497a10dd64/master/pass/maine-lobster.jpg && \
+    wget -O ~/video.mp4 https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
+    git clone -b ${IIKIM_BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git
+
+RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
+    python3 downloader.py --name resnet-50 -o ~/ && \
+    python3 downloader.py --name squeezenet1.1 -o ~/ && \
+    python3 downloader.py --name googlenet-v3 -o ~/
+
+RUN cd /opt/intel/openvino/deployment_tools/model_optimizer/ && \
+    pip install -r requirements_caffe.txt && \
+    pip install coverage m2r pyenchant pylint Sphinx safety test-generator && \
+    ./mo_caffe.py \
+      --input_model=/home/user/public/resnet-50/resnet-50.caffemodel \
+      --input_proto=/home/user/public/resnet-50/resnet-50.prototxt \
+      --output_dir=/home/user/ && \
+    ./mo_caffe.py \
+      --input_model=/home/user/public/squeezenet1.1/squeezenet1.1.caffemodel \
+      --input_proto=/home/user/public/squeezenet1.1/squeezenet1.1.prototxt \
+      --output_dir=/home/user/ && \
+   ./mo_tf.py \
+      --input_model=/home/user/public/googlenet-v3/inception_v3_2016_08_28_frozen.pb \
+      --output_dir=/home/user/
+
+ADD --chown=1000:1000 main.sh /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.sh'
+ADD --chown=1000:1000 main.py /home/user/
+RUN /bin/bash -c 'chmod +x /home/user/main.py'
+
+ARG TARGET
+ENV TARGET="${TARGET}"
+
+ARG INPUT
+ENV INPUT="${INPUT}"
+
+ARG MODEL
+ENV MODEL="${MODEL}"
+
+ARG STATSD_SERVER
+ENV STATSD_SERVER="${STATSD_SERVER}"
+
+ENTRYPOINT ["/home/user/main.sh"]
+CMD ["/home/user/main.sh", "${TARGET}", "${INPUT}", "${MODEL}", "${STATSD_SERVER}"]
