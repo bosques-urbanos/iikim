@@ -1,4 +1,4 @@
-ARG DERIVED_IMAGE=clearlinux/stacks-mers
+ARG DERIVED_IMAGE=sysstacks/mers-clearlinux
 FROM clearlinux:latest AS bundles
 
 # Grab os-release info from the minimal base image so
@@ -11,7 +11,7 @@ RUN source /os-release && \
     mkdir /install_root \
     && swupd os-install -V ${VERSION_ID} \
     --path /install_root --statedir /swupd-state \
-    --bundles=make,wget,python3-basic,mosquitto --no-boot-update \
+    --bundles=make,wget,python3-basic,mosquitto,openssl,git --no-boot-update \
     && rm -rf /install_root/var/lib/swupd/*
 
 # From image set with non-root user allow installation of testing components
@@ -25,10 +25,10 @@ ARG PAHO_MQTT_C_VERSION=1.3.1
 ARG PAHO_MQTT_C=https://github.com/eclipse/paho.mqtt.c/archive/v${PAHO_MQTT_C_VERSION}.tar.gz
 
 RUN wget -O - ${PAHO_MQTT_C} | tar xz && \
-    cd paho.mqtt.c-${PAHO_MQTT_C_VERSION} && \
-    make && \
-    make install && \
-    ldconfig
+    cd paho.mqtt.c-${PAHO_MQTT_C_VERSION}
+    #make && \
+    #make install && \
+    #ldconfig
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 

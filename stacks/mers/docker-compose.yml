@@ -14,11 +14,9 @@ services:
     restart: always
     environment:
       - TZ=America/Mexico_City
-      - DISPLAY=${DISPLAY}
+      - DISPLAY=${DISPLAY-:0}
       - TARGET=${TARGET:-CPU}
       - INPUT=${INPUT:-http://172.17.0.1:9081/?action=stream}
-      - MODELS_PATH=${MODELS_PATH:-"/home/mers-user/intel_models:/home/mers-user/models"}
-      - VIDEO_EXAMPLES_DIR=${VIDEO_EXAMPLES_DIR:-/home/mers-user/video-examples}
     network_mode: host
     ports:
       - 5001:5001
@@ -30,10 +28,6 @@ services:
       - $HOME/.Xauthority:/home/mers-user/.Xauthority:rw
       - ./common/:/home/mers-user/common/
       - ../media/:/home/mers-user/media
-      - $GVA_PATH:/home/mers-user/gst-video-analytics
-      - $INTEL_MODELS_PATH:/home/mers-user/intel_models
-      - $MODELS_PATH:/home/mers-user/models
-      - $VIDEO_EXAMPLES_PATH:/home/mers-user/video-examples
       - /usr/share/glib-2.0/schemas/gschemas.compiled:/usr/share/glib-2.0/schemas/gschemas.compiled
 
   mers-face-detection-and-classification-publish-mqtt:

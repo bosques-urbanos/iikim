@@ -7,12 +7,12 @@
 
 set -e
 
-BASEDIR=$(dirname "$0")/gst-video-analytics
+BASEDIR=$(dirname "$0")/common
 if [ -n ${GST_SAMPLES_DIR} ]; then
-  source $BASEDIR/scripts/setup_env.sh
+  source $BASEDIR/setup_env.sh
 fi
-source $BASEDIR/scripts/setlocale.sh
-source $BASEDIR/scripts/path_extractor.sh
+source $BASEDIR/setlocale.sh
+source $BASEDIR/path_extractor.sh
 
 if [ -z ${1} ]; then
   echo "ERROR input is not set"
@@ -56,7 +56,5 @@ gst-launch-1.0 \
   $SOURCE_ELEMENT ! decodebin ! video/x-raw ! videoconvert ! \
   gvadetect model=$DETECT_MODEL_PATH device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
   gvaclassify model=$CLASS_MODEL_PATH model-proc=$(PROC_PATH $MODEL2_PROC) device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
-  gvaclassify model=$CLASS_MODEL_PATH1 model-proc=$(PROC_PATH $MODEL3_PROC) device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
-  gvaclassify model=$CLASS_MODEL_PATH2 model-proc=$MODEL4_PROC device=$DEVICE pre-proc=$PRE_PROC ! queue ! \
   gvawatermark ! \
   videoconvert ! autovideosink sync=false
