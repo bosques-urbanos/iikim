@@ -51,7 +51,8 @@ LABELS = ["background", "aeroplane", "bicycle", "bird", "boat",
 COLORS = np.random.uniform(0, 255, size=(len(LABELS), 3))
 
 net = cv2.dnn.readNet(prototxt, model)
-#net.setPreferableTarget(cv2.dnn.DNN_TARGET_VPU)
+net.setPreferableBackend(cv2.dnn.DNN_BACKEND_INFERENCE_ENGINE)
+net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
 vs = VideoStream(src=args.input).start()
 time.sleep(2.0)
