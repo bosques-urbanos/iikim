@@ -6,7 +6,8 @@ set -x
 # Variables
 # =============================================================================
 
-# None
+export GVA_PATH=/home/mers-user/gst-video-analytics
+export MODELS_PATH=/home/mers-user/models
 
 # =============================================================================
 # Functions
@@ -18,6 +19,8 @@ set -x
 # Main
 # =============================================================================
 
-cd $HOME
+echo "Host         : " $HOSTNAME
+echo "Input        : " $INPUT
 
+cd $HOME
 /home/mers-user/mers_face_detection_multichannel.sh $INPUT
