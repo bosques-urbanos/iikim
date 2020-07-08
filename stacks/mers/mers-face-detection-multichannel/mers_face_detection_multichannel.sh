@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Copyright (C) 2018-2019 Intel Corporation
+# Copyright (C) 2018-2020 Intel Corporation
 #
 # SPDX-License-Identifier: MIT
 # ==============================================================================
@@ -13,7 +13,11 @@ then
     source $BASEDIR/scripts/setup_env.sh
 fi
 source $BASEDIR/scripts/setlocale.sh
+
+#import GET_MODEL_PATH
 source $BASEDIR/scripts/path_extractor.sh
+
+unset GST_VAAPI_ALL_DRIVERS
 
 if [ -z ${1} ]; then
   echo "ERROR input is not set"
@@ -21,11 +25,12 @@ if [ -z ${1} ]; then
   exit
 fi
 
+INPUT=${1}
 CHANNELS_COUNT=${2:-1}
 DEVICE=CPU
-PRE_PROC=opencv
+PRE_PROC=ie
+#PRE_PROC=opencv
 
-INPUT=${1}
 if [[ $INPUT == "/dev/video"* ]]; then
   SOURCE_ELEMENT="v4l2src device=${INPUT}"
 elif [[ $INPUT == "rtsp://"* ]]; then
@@ -37,6 +42,7 @@ else
 fi
 
 MODEL=face-detection-retail-0004
+
 DETECT_MODEL_PATH=$(GET_MODEL_PATH $MODEL )
 
 PIPELINE_STR=" ${SOURCE_ELEMENT} ! \
