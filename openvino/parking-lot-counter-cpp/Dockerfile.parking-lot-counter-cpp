@@ -34,6 +34,7 @@ RUN /bin/bash -c "source $OPENVINO_INSTALL/bin/setupvars.sh && \
     cp /home/user/main.cpp /home/user/parking-lot-counter-cpp/main.cpp && \
     cd parking-lot-counter-cpp/ && \
     bash ./setup.sh && \
+    ln -s resources/car-detection.mp4 ~/video.mp4 && \
     cd build/ && \
     cmake .. && \
     make"
