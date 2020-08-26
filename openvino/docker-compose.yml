@@ -27,8 +27,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ../media/:/home/user/media
-      - ../../media/people/:/tmp/people
+      - ../../media/people/:/tmp/people:consistent
 
   multicamera-multiperson-demo-python:
     build:
