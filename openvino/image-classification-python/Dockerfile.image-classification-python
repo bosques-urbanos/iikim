@@ -26,17 +26,18 @@ RUN wget -O ~/picture.jog https://assets.bonappetit.com/photos/57daf52cbf7e91497
     git clone -b ${IIKIM_BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git
 
 RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
-    python3 downloader.py --name resnet-50 -o ~/ && \
+    # python3 downloader.py --name resnet-50 -o ~/ && \
     python3 downloader.py --name squeezenet1.1 -o ~/ && \
     python3 downloader.py --name googlenet-v3 -o ~/
 
 RUN cd /opt/intel/openvino/deployment_tools/model_optimizer/ && \
-    pip install -r requirements_caffe.txt && \
-    pip install coverage m2r pyenchant pylint Sphinx safety test-generator && \
-    ./mo_caffe.py \
-      --input_model=/home/user/public/resnet-50/resnet-50.caffemodel \
-      --input_proto=/home/user/public/resnet-50/resnet-50.prototxt \
-      --output_dir=/home/user/ && \
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements_caffe.txt && \
+    pip3 install coverage m2r pyenchant pylint Sphinx safety test-generator && \
+    #./mo_caffe.py \
+    #  --input_model=/home/user/public/resnet-50/resnet-50.caffemodel \
+    #  --input_proto=/home/user/public/resnet-50/resnet-50.prototxt \
+    #  --output_dir=/home/user/ && \
     ./mo_caffe.py \
       --input_model=/home/user/public/squeezenet1.1/squeezenet1.1.caffemodel \
       --input_proto=/home/user/public/squeezenet1.1/squeezenet1.1.prototxt \

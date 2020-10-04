@@ -30,8 +30,9 @@ RUN cd /opt/intel/openvino/deployment_tools/tools/model_downloader && \
     python3 downloader.py --name face-reidentification-retail-0095 -o ~/
 
 RUN cd /home/user/open_model_zoo/demos/python_demos/face_recognition_demo && \
-    pip install -r requirements.txt && \
-    pip install statsd
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt && \
+    pip3 install statsd
 
 ADD --chown=1000:1000 main.sh /home/user/
 RUN /bin/bash -c 'chmod +x /home/user/main.sh'
