@@ -11,8 +11,7 @@ ARG MODELS=$HOME/models/
 WORKDIR $HOME
 USER 0
 
-RUN swupd bundle-add desktop-dev && \
-    pip install pyyaml
+RUN pip install pyyaml
 
 USER mers-user
 
