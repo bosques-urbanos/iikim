@@ -14,7 +14,8 @@ WORKDIR /
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
-    git && \
+    git \
+    nlohmann-json-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN chown -R user /home/user
