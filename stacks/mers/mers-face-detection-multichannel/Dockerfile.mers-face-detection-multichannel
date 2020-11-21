@@ -1,4 +1,4 @@
-FROM xe1gyq/mers-clearlinux
+FROM clearlinux/stacks-mers
 
 MAINTAINER Abraham Arce "xe1gyq@gmail.com"
 
@@ -9,8 +9,13 @@ ARG HOME=/home/mers-user/
 ARG MODELS=$HOME/models/
 
 WORKDIR $HOME
+USER 0
 
-RUN wget -O $HOME/video.mp4 \
+RUN pip install pyyaml
+
+USER mers-user
+
+RUN curl -o $HOME/video.mp4 \
       https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/face-demographics-walking-and-pause.mp4 && \
     git clone -b ${IIKIM_MERS_BRANCH} https://github.com/bosques-urbanos/open_model_zoo.git && \
     cd open_model_zoo/ && \

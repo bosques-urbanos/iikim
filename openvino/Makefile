@@ -24,6 +24,8 @@ stream-cpu:
 	#CURRENT_UID=$(id -u):$(id -g) TARGET=CPU INPUT="rtsp://admin:mav2aten@192.168.1.252:554/Streaming/channels/901" THRESHOLD=.90 docker-compose up --no-start
 	docker-compose build --force-rm --build-arg TARGET=CPU --build-arg INPUT="rtsp://admin:mav2aten@192.168.0.190:554/cam/realmonitor?channel=1&subtype=1"
 	CURRENT_UID=$(id -u):$(id -g) TARGET=CPU INPUT="rtsp://admin:mav2aten@192.168.0.190:554/cam/realmonitor?channel=1&subtype=1" THRESHOLD=.90 docker-compose up --no-start
+	#docker-compose build --force-rm --build-arg TARGET=CPU --build-arg INPUT="http://192.168.192.221:9081/?action=stream"
+	#CURRENT_UID=$(id -u):$(id -g) TARGET=CPU INPUT="http://192.168.192.221:9081/?action=stream" THRESHOLD=.90 docker-compose up --no-start
 
 .PHONY: stream-gpu
 stream-gpu:
