@@ -2,6 +2,7 @@
 
 import cv2
 import gc
+import os
 import sys
 import time
 
@@ -25,31 +26,30 @@ parser.add_argument('-hp', '--hostport', default=5000, type=int,
 
 args = parser.parse_args()
 
-cap = cv2.VideoCapture(args.input)
+#os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "-hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi"
+
+cap = cv2.VideoCapture(args.input, cv2.CAP_FFMPEG)
+#cap = cv2.VideoCapture(args.input)
 fps = int(cap.get(cv2.CAP_PROP_FPS))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+buffer = int(cap.get(cv2.CAP_PROP_BUFFERSIZE))
 
-if args.input:
-    cap.open(args.input)
-    DELAY = 1000 / cap.get(cv2.CAP_PROP_FPS)
-
-gst_str_rtp = "appsrc ! videoconvert ! videoscale ! videorate ! video/x-raw,width=960,height=480,framerate=30/1 ! matroskamux streamable=true ! tcpserversink host=" + args.hostip + " port=" + str(args.hostport) + " sync=false sync-method=2"
-output_fourcc = cv2.VideoWriter_fourcc(*args.fourcc)
-out = cv2.VideoWriter(gst_str_rtp, output_fourcc, fps, (frame_width, frame_height))
+#gst_str_rtp = "appsrc ! videoconvert ! videoscale ! videorate ! video/x-raw,width=960,height=480,framerate=30/1 ! matroskamux streamable=true ! tcpserversink host=" + args.hostip + " port=" + str(args.hostport) + " sync=false sync-method=2"
+#output_fourcc = cv2.VideoWriter_fourcc(*args.fourcc)
+#out = cv2.VideoWriter(gst_str_rtp, output_fourcc, fps, (frame_width, frame_height))
 
 while(True):
 
     stime = time.time()
     ret, frame = cap.read()
-    key_pressed = cv2.waitKey(int(DELAY))
-    banner = 'FPS {:.1f}'.format(1 / (time.time() - stime))
-    cv2.putText(frame, banner, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,177,1), 3)
+    #banner = 'FPS {:.1f}'.format(1 / (time.time() - stime))
+    #cv2.putText(frame, banner, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,177,1), 3)
     cv2.imshow("Epsilon", frame)
-    out.write(frame)
+    #out.write(frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-out.release()
+#out.release()
 cap.release()

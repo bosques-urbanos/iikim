@@ -6,7 +6,9 @@ set -x
 # Variables
 # =============================================================================
 
-OPENVINO_INSTALLATION=/opt/intel/openvino/
+export OPENVINO_INSTALLATION=/opt/intel/openvino/
+#export OPENCV_FFMPEG_CAPTURE_OPTIONS = "-hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi"
+export OPENCV_FFMPEG_CAPTURE_OPTIONS = "rtsp_transport;udp"
 
 # =============================================================================
 # Functions
